@@ -1,12 +1,12 @@
 const mongoose = require('../database');
 
 const workoutSchema = new mongoose.Schema({
-  workout: { type: String, required: true },
+  title: { type: String, minlength: 2 },
   exercise: [{
-    name: { type: String, required: true },
-    sets: { type: Number, required: true },
-    reps: { type: Number, required: true },
-    weight: { type: Number, required: true },
+    name: String,
+    sets: Number,
+    reps: Number,
+    weight: Number,
     created: { type: Date, default: Date.now },
     lastModified: { type: Date, default: Date.now }
   }]

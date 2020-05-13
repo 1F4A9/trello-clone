@@ -3,7 +3,7 @@ import axios from 'axios';
 
 function App() {
   useEffect(() => {
-    axios.get('/home')
+    axios.get('/get_workouts')
       .then(data => console.log(data.data))
   }, [])
 
