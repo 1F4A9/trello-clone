@@ -25,37 +25,30 @@ router.post('/add_workout', (req, res) => {
     })
     .catch(err => {
       console.log(err.message);
-      if (err.message) return res.status(400).json({ error: err.message });
+      if (err.message) return res.status(500).json({ error: err.message });
     });
 });
 
-router.post('/add_exercise', (req, res) => {
-  const { name, sets, reps, weight, id } = req.body;
+router.put('/rename_workout', (req, res) => {
+  const { title } = req.body;
 
-  if (!name || !sets || !reps || !weight || !id) {
-    return res.status(400).json({ message: 'Please fill in the required fields' })
-  }
+  if (!title) return res.status(400).json({ error: 'Please enter a valid title' });
 
-  const exercise = {
-    name,
-    sets,
-    reps,
-    weight
-  };
 
-  Workout.findByIdAndUpdate(id, {
-    $push: { exercise }
-  }, {
-    new: true
-  })
-  .then(data => {
-    console.log(data);
-    res.status(200).json({ data });
-  })
-  .catch(err => {
-    console.log(err);
-  })
 });
 
+router.delete('/delete_workout', (req, res) => {
+  const { id } = req.body;
+
+  if (!id) return res.status(400).json({ error: `Please make this request with an valid id` });
+
+  Workout.findByIdAndDelete(id)
+    .then(data => {
+      res.status(204).json({ data })
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
 
 module.exports = router;

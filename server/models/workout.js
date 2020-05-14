@@ -7,9 +7,14 @@ const workoutSchema = new mongoose.Schema({
     sets: Number,
     reps: Number,
     weight: Number,
-    created: { type: Date, default: Date.now },
+    createdAt: { type: Date, default: Date.now },
     lastModified: { type: Date, default: Date.now }
   }]
-})
+});
+
+workoutSchema.pre('updateOne', function(next) {
+  this.set({ 'exercise.$.lastModified': new Date() });
+  next();
+});
 
 mongoose.model('Workout', workoutSchema);

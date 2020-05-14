@@ -14,6 +14,7 @@ app.use(express.json());
 
 // mount the router on the app
 app.use(require('./routes/workout'));
+app.use(require('./routes/exercise'));
 
 const PORT = 8080;
 app.listen(PORT, () => console.log(`listening on port ${PORT}...`));
