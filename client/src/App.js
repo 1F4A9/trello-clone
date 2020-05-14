@@ -1,16 +1,17 @@
-import React, { useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
+import GlobalStyle from './styles/GlobalStyle';
+import Home from './screens/Home';
 
 function App() {
-  useEffect(() => {
-    axios.get('/get_workouts')
-      .then(data => console.log(data.data))
-  }, [])
-
   return (
-    <div className="App">
-
-    </div>
+    <Router>
+      <GlobalStyle />
+      <Switch>
+        <Route exact path='/' component={Home} />
+      </Switch>
+    </Router>
   );
 }
 
