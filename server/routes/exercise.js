@@ -52,6 +52,7 @@ router.put('/edit_exercise', (req, res) => {
   })
   .catch(err => {
     console.log(err)
+    return res.status(500).json({ error: err });
   });
 });
 
@@ -70,6 +71,7 @@ router.put('/remove_exercise', (req, res) => {
   })
   .catch(err => {
     console.log(err);
+    return res.status(500).json({ error: err });
   });
 });
 

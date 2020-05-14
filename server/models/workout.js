@@ -12,6 +12,7 @@ const workoutSchema = new mongoose.Schema({
   }]
 });
 
+// middlewares
 workoutSchema.pre('updateOne', function(next) {
   this.set({ 'exercise.$.lastModified': new Date() });
   next();

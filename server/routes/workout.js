@@ -11,6 +11,7 @@ router.get('/get_workouts', (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+      return res.status(500).json({ error: err });
     });
 });
 
@@ -30,11 +31,20 @@ router.post('/add_workout', (req, res) => {
 });
 
 router.put('/rename_workout', (req, res) => {
-  const { title } = req.body;
+  const { title, id } = req.body;
 
   if (!title) return res.status(400).json({ error: 'Please enter a valid title' });
 
-
+  Workout.findByIdAndUpdate(id, {
+    $set: { title }
+  })
+  .then(data => {
+    res.json({ data });
+  })
+  .catch(err => {
+    console.log(err.message);
+    if (err.message) return res.status(500).json({ error: err.message });
+  })
 });
 
 router.delete('/delete_workout', (req, res) => {
@@ -48,6 +58,7 @@ router.delete('/delete_workout', (req, res) => {
     })
     .catch(err => {
       console.log(err);
+      return res.status(500).json({ error: err });
     });
 });
 
