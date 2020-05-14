@@ -26,7 +26,7 @@ router.post('/add_exercise', (req, res) => {
   .then(data => {
     if (!data) return res.status(400).json({ error: 'Please only add exercise to an existing workout' })
 
-    res.status(201).json({ data });
+    res.status(201).json(data);
   })
   .catch(err => {
     console.log(err);
@@ -48,7 +48,7 @@ router.put('/edit_exercise', (req, res) => {
      }
   })
   .then(data => {
-    res.status(201).json({ data });
+    res.status(201).json(data);
   })
   .catch(err => {
     console.log(err)
@@ -67,7 +67,7 @@ router.put('/remove_exercise', (req, res) => {
   .then(data => {
     if (!data) return res.status(400).json({ error: 'cannot remove object that does not exists' });
     
-    res.status(200).json({ data });
+    res.status(200).json(data);
   })
   .catch(err => {
     console.log(err);

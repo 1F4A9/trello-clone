@@ -7,7 +7,7 @@ const Workout = mongoose.model('Workout');
 router.get('/get_workouts', (req, res) => {
   Workout.find()
     .then(data => {
-      res.json({ data });
+      res.json(data);
     })
     .catch((err) => {
       console.log(err);
@@ -22,7 +22,7 @@ router.post('/add_workout', (req, res) => {
   const workout = new Workout({ title });
   workout.save()
     .then(data => {
-      res.json({ data });
+      res.json(data);
     })
     .catch(err => {
       console.log(err.message);
@@ -39,7 +39,7 @@ router.put('/rename_workout', (req, res) => {
     $set: { title }
   })
   .then(data => {
-    res.json({ data });
+    res.json(data);
   })
   .catch(err => {
     console.log(err.message);
@@ -54,7 +54,7 @@ router.delete('/delete_workout', (req, res) => {
 
   Workout.findByIdAndDelete(id)
     .then(data => {
-      res.status(204).json({ data })
+      res.status(204).json(data)
     })
     .catch(err => {
       console.log(err);
