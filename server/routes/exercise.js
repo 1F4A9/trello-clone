@@ -8,7 +8,7 @@ router.post('/add_exercise', (req, res) => {
   const { name, sets, reps, weight, id } = req.body;
 
   if (!name || !sets || !reps || !weight || !id) {
-    return res.status(400).json({ error: 'Please fill in the required fields' })
+    return res.status(400).json({ error: 'Please fill in the required fields' });
   }
 
   const exercise = {
@@ -24,7 +24,7 @@ router.post('/add_exercise', (req, res) => {
     new: true
   })
   .then(data => {
-    if (!data) return res.status(400).json({ error: 'Please only add exercise to an existing workout' })
+    if (!data) return res.status(400).json({ error: 'Please only add exercise to an existing workout' });
 
     res.status(201).json(data);
   })
@@ -51,7 +51,7 @@ router.put('/edit_exercise', (req, res) => {
     res.status(201).json(data);
   })
   .catch(err => {
-    console.log(err)
+    console.log(err);
     return res.status(500).json({ error: err });
   });
 });
