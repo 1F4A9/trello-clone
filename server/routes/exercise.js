@@ -56,7 +56,7 @@ router.put('/edit_exercise', (req, res) => {
   });
 });
 
-router.put('/remove_exercise', (req, res) => {
+router.patch('/remove_exercise', (req, res) => {
   const { id } = req.body;
 
   if (!id) return res.status(400).json({ error: 'Please make this request with a valid id' });
