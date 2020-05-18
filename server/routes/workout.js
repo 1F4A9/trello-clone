@@ -30,7 +30,7 @@ router.post('/add_workout', (req, res) => {
     });
 });
 
-router.put('/rename_workout', (req, res) => {
+router.patch('/rename_workout', (req, res) => {
   const { title, id } = req.body;
 
   if (!title) return res.status(400).json({ error: 'Please enter a valid title' });

@@ -34,7 +34,7 @@ router.post('/add_exercise', (req, res) => {
   });
 });
 
-router.put('/edit_exercise', (req, res) => {
+router.patch('/edit_exercise', (req, res) => {
   const { name, sets, reps, weight, id } = req.body;
 
   // DO SOME VALIDATION
