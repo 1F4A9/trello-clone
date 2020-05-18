@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Workouts from '../components/Workouts';
+import Card from '../components/Card';
 
 const Container = styled.main`
   width: 100%;
@@ -10,7 +10,7 @@ const Container = styled.main`
 export default function Home() {
   return (
     <Container>
-      <Workouts />
+      <Card />
     </Container>
   )
 }
