@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import CardFooter from './CardFooter';
 import CardBody from './CardBody';
+import CardHeader from './CardHeader';
 
 const Container = styled.div`
   display: flex;
@@ -20,31 +21,11 @@ const Container = styled.div`
     background-color: #f1f3f5;
     border-radius: 4px;
   }
-
-  .card-header {
-    flex: 1;
-    display: flex;
-    justify-content: space-between;
-
-    span {
-      margin: 6px 12px;
-      font-weight: 900;
-      cursor: default;
-    }
-
-    i {
-      align-self: center;
-      color: #333;
-      cursor: pointer;
-      padding: 6px;
-      margin: 0px 6px;
-    }
-  }
 `;
 
 export default function Card() {
   const [workouts, setWorkouts] = useState([]);
-  const [clickedWorkoutTitle, setClickedWorkoutTitle] = useState('');
+  const [displayEditIcon, setDisplayEditIcon] = useState(false);
 
   useEffect(() => {
     axios.get('/get_workouts')
@@ -54,23 +35,30 @@ export default function Card() {
       });
   }, [])
 
+  function onDisplayEdit() {
+    setDisplayEditIcon(!displayEditIcon);
+  }
+
   console.log(workouts)
 
   return (
-    <Container clickedWorkoutTitle={clickedWorkoutTitle} >
-      {workouts.map((data) => {
+    <Container>
+      {workouts.map((workout) => {
         return (
-          <div className="card" key={data._id} >
-            <div className="card-header">
-              <span style={{marginBottom: '1.666rem'}}>{data.title}</span>
-              <i className="fas fa-ellipsis-h"></i>
-            </div>
-            <div className="card-body">
-              <CardBody exercises={data.exercise}/>
-            </div>
-            <div className="card-footer" >
-              <CardFooter title={data.title} id={data._id} />
-            </div>
+          <div className="card" key={workout._id}>
+            <CardHeader 
+              title={workout.title} 
+              onDisplayEdit={onDisplayEdit} 
+              workoutID={workout._id}
+            />
+            <CardBody 
+              exercises={workout.exercise} 
+              displayEditIcon={displayEditIcon} 
+              workoutID={workout._id}
+            />
+            <CardFooter 
+              workoutID={workout._id} 
+            />
           </div>
         )
       })}

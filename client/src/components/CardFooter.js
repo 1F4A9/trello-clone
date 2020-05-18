@@ -133,7 +133,7 @@ const Container = styled.div`
   }
 `;
 
-export default function CardFooter({ title, id }) {
+export default function CardFooter({ workoutID }) {
   const [exercise, setExercise] = useState({});
   const [isVisible, setIsVisible] = useState(false);
 
@@ -143,7 +143,7 @@ export default function CardFooter({ title, id }) {
     e.preventDefault();
 
     axios.post('/add_exercise', { 
-      id,
+      id: workoutID,
       name: exercise.name,
       sets: exercise.sets,
       reps: exercise.reps,
@@ -176,18 +176,18 @@ export default function CardFooter({ title, id }) {
   let display = null;
   let hide = null;
   if (isVisible) {
-    display = { display: 'block' }
-    hide = { display: 'none' }
+    display = { display: 'block' };
+    hide = { display: 'none' };
   } else {
-    display = { display: 'none' }
-    hide = { display: 'block' }
-  }
+    display = { display: 'none' };
+    hide = { display: 'block' };
+  };
 
   return (
     <Container ref={formReference}>
       <span style={hide} className={`default-footer`}>+ Add new exercise</span>
       {isVisible && (
-      <div className={`add-exercise ${title}`} style={display}>
+      <div className={`add-exercise`} style={display}>
         <form onSubmit={onSubmit}>
           <div className="textfield">
             <input 
