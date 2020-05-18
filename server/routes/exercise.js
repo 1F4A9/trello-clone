@@ -59,13 +59,13 @@ router.put('/edit_exercise', (req, res) => {
 router.put('/remove_exercise', (req, res) => {
   const { id } = req.body;
 
-  if (!id) return res.status(400).json({ error: 'Please make this request with an valid id' });
+  if (!id) return res.status(400).json({ error: 'Please make this request with a valid id' });
 
   Workout.findOneAndUpdate({ 'exercise._id': id }, {
     $pull: { exercise: { _id: id } }
   })
   .then(data => {
-    if (!data) return res.status(400).json({ error: 'cannot remove object that does not exists' });
+    if (!data) return res.status(400).json({ error: 'Cannot remove object that does not exists' });
     
     res.status(200).json(data);
   })

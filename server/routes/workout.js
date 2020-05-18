@@ -50,7 +50,7 @@ router.put('/rename_workout', (req, res) => {
 router.delete('/delete_workout', (req, res) => {
   const { id } = req.body;
 
-  if (!id) return res.status(400).json({ error: `Please make a request with a valid id` });
+  if (!id) return res.status(400).json({ error: `Please make this request with a valid id` });
 
   Workout.findByIdAndDelete(id)
     .then(data => {
