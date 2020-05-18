@@ -174,15 +174,18 @@ export default function CardFooter({ title, id }) {
   }, []);
   
   let display = null;
+  let hide = null;
   if (isVisible) {
-    display = { display: 'visible' }
+    display = { display: 'block' }
+    hide = { display: 'none' }
   } else {
     display = { display: 'none' }
+    hide = { display: 'block' }
   }
 
   return (
     <Container ref={formReference}>
-      <span className={`default-footer ${title}-span`}>+ Add new exercise</span>
+      <span style={hide} className={`default-footer`}>+ Add new exercise</span>
       {isVisible && (
       <div className={`add-exercise ${title}`} style={display}>
         <form onSubmit={onSubmit}>
