@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 import Card from '../components/Card';
 import AddWorkoutCard from '../components/AddWorkoutCard';
@@ -10,10 +11,20 @@ const Container = styled.main`
 `;
 
 export default function Home() {
+  const [workouts, setWorkouts] = useState([]);
+
+  useEffect(() => {
+    axios.get('/get_workouts')
+      .then(data => setWorkouts(data.data))
+      .catch(err => {
+        console.log(err);
+      });
+  }, [])
+
   return (
     <Container>
-      <Card />
-      <AddWorkoutCard />
+      <Card workouts={workouts} setWorkouts={setWorkouts} />
+      <AddWorkoutCard workouts={workouts} setWorkouts={setWorkouts} />
     </Container>
   )
 }

@@ -23,14 +23,17 @@ const Container = styled.div`
   }
 `;
 
-export default function CardHeaderMenu({ onDisplayEdit, displayEditIcon, onDisplayMenu, workoutID }) {
+export default function CardHeaderMenu({ onDisplayEdit, displayEditIcon, onDisplayMenu, workoutID, setWorkouts, workouts }) {
   function onDelete() {
     axios.delete('/delete_workout', { data: {
       id: workoutID
     }})
     .then(result => {
-      onDisplayMenu()
-      console.log(result);
+      onDisplayMenu();
+      
+      let workoutsCopy = [...workouts];
+      let updatedWorkouts = workoutsCopy.filter(workout => workout._id !== workoutID);
+      setWorkouts(updatedWorkouts);
     })
     .catch(err => console.log(err));
   }

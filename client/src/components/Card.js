@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
 
 import CardFooter from './CardFooter';
@@ -23,17 +22,8 @@ const Container = styled.div`
   }
 `;
 
-export default function Card() {
-  const [workouts, setWorkouts] = useState([]);
+export default function Card({ workouts, setWorkouts }) {
   const [displayEditIcon, setDisplayEditIcon] = useState('');
-
-  useEffect(() => {
-    axios.get('/get_workouts')
-      .then(data => setWorkouts(data.data))
-      .catch(err => {
-        console.log(err);
-      });
-  }, [])
 
   function onDisplayEdit(workoutID) {
     setDisplayEditIcon(workoutID);
@@ -47,12 +37,16 @@ export default function Card() {
         return (
           <div className="card" key={workout._id}>
             <CardHeader 
+              setWorkouts={setWorkouts}
+              workouts={workouts}
               title={workout.title} 
               onDisplayEdit={onDisplayEdit} 
               workoutID={workout._id}
               displayEditIcon={displayEditIcon}
             />
-            <CardBody 
+            <CardBody
+              setWorkouts={setWorkouts}
+              workouts={workouts}
               exercises={workout.exercise} 
               displayEditIcon={displayEditIcon} 
               workoutID={workout._id}

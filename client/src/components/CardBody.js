@@ -13,6 +13,7 @@ const Container = styled.div`
   .exercise-container {
     display: flex;
     justify-content: space-between;
+    cursor: default;
 
     i::before {
       cursor: pointer;
@@ -21,7 +22,7 @@ const Container = styled.div`
   }
 `;
 
-export default function CardBody({ exercises, displayEditIcon, workoutID }) {
+export default function CardBody({ exercises, displayEditIcon, workoutID, workouts, setWorkouts }) {
   const [displayEdit, setDisplayEdit] = useState(false);
   const [clickedID, setClickedID] = useState('');
 
@@ -39,12 +40,13 @@ export default function CardBody({ exercises, displayEditIcon, workoutID }) {
     setDisplayEdit(boolean);
   }
 
-
   function onDelete(id) {
     axios.patch('/remove_exercise', {
       id
     })
-    .then(response => console.log(response))
+    .then(response => {
+      console.log(response);
+    })
     .catch(err => console.log(err))
   }
 

@@ -46,7 +46,7 @@ const Container = styled.div`
   }
 `;
 
-export default function AddWorkoutCard() {
+export default function AddWorkoutCard({ workouts, setWorkouts }) {
   const [title, setTitle] = useState('');
   const [displayInput, setDisplayInput] = useState(false);
   const inputReference = useRef(null);
@@ -68,7 +68,6 @@ export default function AddWorkoutCard() {
   }, [displayInput]);
 
   function handleClickOutside(e) {
-    console.log(cardReference.current.contains(e.target))
     if (cardReference.current.contains(e.target)) {
       setDisplayInput(true);
     } else {
@@ -84,6 +83,10 @@ export default function AddWorkoutCard() {
     })
     .then(response => {
       console.log(response);
+      let workoutsCopy = [...workouts];
+      workoutsCopy.push(response.data);
+      setWorkouts(workoutsCopy);
+
       setTitle('');
       setDisplayInput(false);
     })
@@ -106,8 +109,6 @@ export default function AddWorkoutCard() {
     setTitle('');
   }
 
-  console.log(displayInput)
-
   let newWorkout = null;
   if (displayInput) {
     newWorkout = (
@@ -119,6 +120,7 @@ export default function AddWorkoutCard() {
           value={title} 
           placeholder="title..." 
           ref={inputReference}
+          autoComplete="off"
         />
         <div className="confirm-container">
           <input type="submit" />

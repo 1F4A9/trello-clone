@@ -68,10 +68,10 @@ export default function CardBodyEditExercise({ onDisplayEdit, displayEdit, exerc
   return (
     <Container style={display} ref={reference}>
       <form onSubmit={onSubmit}>
-        <input onChange={onChange} value={editedExercise.name || ''} type="text" name="name" />
-        <input onChange={onChange} value={editedExercise.sets || ''} type="number" name="sets" />
-        <input onChange={onChange} value={editedExercise.reps || ''} type="number" name="reps" />
-        <input onChange={onChange} value={editedExercise.weight || ''} type="number" name="weight" />
+        <input onChange={onChange} value={editedExercise.name || ''} type="text" name="name" autoComplete="off"/>
+        <input onChange={onChange} value={editedExercise.sets || ''} type="number" name="sets" autoComplete="off"/>
+        <input onChange={onChange} value={editedExercise.reps || ''} type="number" name="reps" autoComplete="off"/>
+        <input onChange={onChange} value={editedExercise.weight || ''} type="number" name="weight" autoComplete="off"/>
         <input type="submit" />
       </form>
     </Container>

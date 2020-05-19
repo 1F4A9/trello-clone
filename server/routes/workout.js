@@ -39,10 +39,10 @@ router.patch('/rename_workout', (req, res) => {
     $set: { title }
   })
   .then(data => {
+    console.log(data)
     res.status(201).json(data);
   })
   .catch(err => {
-    console.log(err.message);
     if (err.message) return res.status(500).json({ error: err.message });
   })
 });
