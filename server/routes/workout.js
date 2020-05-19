@@ -22,7 +22,7 @@ router.post('/add_workout', (req, res) => {
   const workout = new Workout({ title });
   workout.save()
     .then(data => {
-      res.json(data);
+      res.status(201).json(data);
     })
     .catch(err => {
       console.log(err.message);

@@ -39,6 +39,10 @@ router.patch('/edit_exercise', (req, res) => {
 
   // DO SOME VALIDATION
 
+  if (!name || !sets || !reps || !weight || !id) return res.status(400).json({ error: 'Please make a better error log' });
+
+  console.log(name, sets, reps, weight, id)
+
   Workout.updateOne({ 'exercise._id': id }, {
     $set: { 
       'exercise.$.name': name, 
@@ -67,7 +71,7 @@ router.patch('/remove_exercise', (req, res) => {
   .then(data => {
     if (!data) return res.status(400).json({ error: 'Cannot remove object that does not exists' });
     
-    res.status(200).json(data);
+    res.status(204).json(data);
   })
   .catch(err => {
     console.log(err);
