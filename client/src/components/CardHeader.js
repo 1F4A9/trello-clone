@@ -24,7 +24,7 @@ const Container = styled.div`
   }
 `;
 
-export default function CardHeader({ title, onDisplayEdit, workoutID }) {
+export default function CardHeader({ title, onDisplayEdit, workoutID, displayEditIcon }) {
   const [displayMenu, setDisplayMenu] = useState(false);
 
   function onDisplayMenu() {
@@ -40,6 +40,7 @@ export default function CardHeader({ title, onDisplayEdit, workoutID }) {
         onDisplayEdit={onDisplayEdit} 
         workoutID={workoutID} 
         onDisplayMenu={onDisplayMenu}
+        displayEditIcon={displayEditIcon}
       />}
     </Container>
   )

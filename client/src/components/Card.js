@@ -25,7 +25,7 @@ const Container = styled.div`
 
 export default function Card() {
   const [workouts, setWorkouts] = useState([]);
-  const [displayEditIcon, setDisplayEditIcon] = useState(false);
+  const [displayEditIcon, setDisplayEditIcon] = useState('');
 
   useEffect(() => {
     axios.get('/get_workouts')
@@ -35,8 +35,8 @@ export default function Card() {
       });
   }, [])
 
-  function onDisplayEdit() {
-    setDisplayEditIcon(!displayEditIcon);
+  function onDisplayEdit(workoutID) {
+    setDisplayEditIcon(workoutID);
   }
 
   console.log(workouts)
@@ -50,6 +50,7 @@ export default function Card() {
               title={workout.title} 
               onDisplayEdit={onDisplayEdit} 
               workoutID={workout._id}
+              displayEditIcon={displayEditIcon}
             />
             <CardBody 
               exercises={workout.exercise} 

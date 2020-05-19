@@ -21,7 +21,7 @@ const Container = styled.div`
   }
 `;
 
-export default function CardHeaderMenu({ onDisplayEdit, onDisplayMenu, workoutID }) {
+export default function CardHeaderMenu({ onDisplayEdit, displayEditIcon, onDisplayMenu, workoutID }) {
   function onDelete() {
     axios.delete('/delete_workout', { data: {
       id: workoutID
@@ -34,7 +34,12 @@ export default function CardHeaderMenu({ onDisplayEdit, onDisplayMenu, workoutID
   }
 
   function onEdit() {
-    onDisplayEdit();
+    if (!displayEditIcon) {
+      onDisplayEdit(workoutID);
+    } else {
+      onDisplayEdit('');
+    }
+    
     onDisplayMenu();
   }
   
