@@ -136,8 +136,14 @@ const Container = styled.div`
 export default function CardFooter({ workoutID }) {
   const [exercise, setExercise] = useState({});
   const [isVisible, setIsVisible] = useState(false);
-
   const formReference = useRef(null);
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, false);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, false);
+    };
+  }, []);
 
   function onSubmit(e) {
     e.preventDefault();
@@ -149,7 +155,9 @@ export default function CardFooter({ workoutID }) {
       reps: exercise.reps,
       weight: exercise.weight
      })
-    .then(data => console.log(data))
+    .then(response => {
+      console.log(response);
+    })
 
     setExercise({});
   }
@@ -165,13 +173,6 @@ export default function CardFooter({ workoutID }) {
       setIsVisible(false);
     }
   }
-  
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside, false);
-    return () => {
-      document.removeEventListener("click", handleClickOutside, false);
-    };
-  }, []);
   
   let display = null;
   let hide = null;
