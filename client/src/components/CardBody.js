@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import CardBodyEditExercise from './CardBodyEditExercise';
 
@@ -22,13 +22,17 @@ export default function CardBody({ exercises, displayEditIcon }) {
   const [displayEdit, setDisplayEdit] = useState(false);
   const [clickedID, setClickedID] = useState('');
 
-  function onDisplayEdit(id = '') {
+  function onDisplayEdit(boolean, id = '') {
     setClickedID(id);
 
-    setDisplayEdit(!displayEdit);
+    setDisplayEdit(boolean);
   }
 
-  console.log(displayEdit)
+  useEffect(() => {
+    if (displayEdit) {
+      setDisplayEdit(false);
+    }
+  },[displayEdit])
 
   return (
     <>
@@ -38,7 +42,7 @@ export default function CardBody({ exercises, displayEditIcon }) {
             <div className="flex-container">
               <div className="exercise-container">
                 <p>{exercise.name}: {exercise.sets} x {exercise.reps}: {exercise.weight}kg</p>
-                {displayEditIcon && <i className="fas fa-pencil-alt" onClick={() => onDisplayEdit(exercise._id)}></i>}
+                {displayEditIcon && <i className="fas fa-pencil-alt" onClick={() => onDisplayEdit(true, exercise._id)}></i>}
               </div>
               <CardBodyEditExercise
                 onDisplayEdit={onDisplayEdit}

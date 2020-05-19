@@ -25,7 +25,7 @@ export default function CardBodyEditExercise({ onDisplayEdit, displayEdit, exerc
   useEffect(() => {
     setIsVisible(true);
     return () => {
-      setIsVisible(true)
+      setIsVisible(true);
     }
   }, [displayEdit])
 
@@ -41,7 +41,7 @@ export default function CardBodyEditExercise({ onDisplayEdit, displayEdit, exerc
     })
     .then(response => {
       console.log(response);
-      onDisplayEdit();
+      onDisplayEdit(false);
     })
     .catch(err => console.log(err));
   }
@@ -61,7 +61,6 @@ export default function CardBodyEditExercise({ onDisplayEdit, displayEdit, exerc
   let display = null;
   if (clickedID === exerciseID && isVisible) {
     display = { display: 'block' };
-    console.log('block')
   } else {
     display = { display: 'none' };
   };
