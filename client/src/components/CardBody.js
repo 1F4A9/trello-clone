@@ -41,9 +41,7 @@ export default function CardBody({ exercises, displayEditIcon, workoutID, workou
   }
 
   function onDelete(id) {
-    axios.patch('/remove_exercise', {
-      id
-    })
+    axios.patch(`/remove_exercise/${id}`)
     .then(response => {
       console.log(response);
     })

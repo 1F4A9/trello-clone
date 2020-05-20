@@ -25,9 +25,7 @@ const Container = styled.div`
 
 export default function CardHeaderMenu({ onDisplayEdit, displayEditIcon, onDisplayMenu, workoutID, setWorkouts, workouts }) {
   function onDelete() {
-    axios.delete('/delete_workout', { data: {
-      id: workoutID
-    }})
+    axios.delete(`/delete_workout/${workoutID}`)
     .then(result => {
       onDisplayMenu();
       

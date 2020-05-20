@@ -32,12 +32,11 @@ export default function CardBodyEditExercise({ onDisplayEdit, displayEdit, exerc
   function onSubmit(e) {
     e.preventDefault();
 
-    axios.patch('/edit_exercise', {
+    axios.patch(`/edit_exercise/${exerciseID}`, {
       name: editedExercise.name,
       sets: editedExercise.sets,
       reps: editedExercise.reps,
       weight: editedExercise.weight,
-      id: exerciseID
     })
     .then(response => {
       console.log(response);

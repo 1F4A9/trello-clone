@@ -56,9 +56,8 @@ export default function CardHeader({ title, onDisplayEdit, workoutID, displayEdi
       setEditTitle(true);
     } else {
       if (title !== newTitle) {
-        axios.patch('/rename_workout', {
+        axios.patch(`/rename_workout/${workoutID}`, {
           title: newTitle,
-          id: workoutID
         })
         .then(response => {
           let updatedWorkouts = [...workouts];
@@ -119,7 +118,7 @@ export default function CardHeader({ title, onDisplayEdit, workoutID, displayEdi
   return (
     <Container>
       <span onClick={onClick}>
-        {editTitle ? titleInput : title}
+        {editTitle ? titleInput : newTitle || title}
       </span>
       <i className="fas fa-ellipsis-h" onClick={onDisplayMenu}></i>
       {displayMenu && 

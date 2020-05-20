@@ -4,10 +4,12 @@ const mongoose = require('mongoose');
 
 const Workout = mongoose.model('Workout');
 
-router.post('/add_exercise', (req, res) => {
-  const { name, sets, reps, weight, id } = req.body;
-
-  if (!name || !sets || !reps || !weight || !id) {
+router.post('/add_exercise/:id', (req, res) => {
+  const id = req.params.id;
+  const { name, sets, reps, weight } = req.body;
+  
+  if (!id) return res.status(400).json({ error: `Please make this request with a valid id` });
+  if (!name || !sets || !reps || !weight) {
     return res.status(400).json({ error: 'Please fill in the required fields' });
   }
 
@@ -34,14 +36,13 @@ router.post('/add_exercise', (req, res) => {
   });
 });
 
-router.patch('/edit_exercise', (req, res) => {
-  const { name, sets, reps, weight, id } = req.body;
+router.patch('/edit_exercise/:id', (req, res) => {
+  const id = req.params.id;
+  const { name, sets, reps, weight } = req.body;
 
   // DO SOME VALIDATION
-
-  if (!name || !sets || !reps || !weight || !id) return res.status(400).json({ error: 'Please make a better error log' });
-
-  console.log(name, sets, reps, weight, id)
+  if (!id) return res.status(400).json({ error: `Please make this request with a valid id` });
+  if (!name || !sets || !reps || !weight) return res.status(400).json({ error: 'Please make a better error log' });
 
   Workout.updateOne({ 'exercise._id': id }, {
     $set: { 
@@ -60,8 +61,8 @@ router.patch('/edit_exercise', (req, res) => {
   });
 });
 
-router.patch('/remove_exercise', (req, res) => {
-  const { id } = req.body;
+router.patch('/remove_exercise/:id', (req, res) => {
+  const id = req.params.id;
 
   if (!id) return res.status(400).json({ error: 'Please make this request with a valid id' });
 

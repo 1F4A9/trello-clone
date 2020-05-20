@@ -148,8 +148,7 @@ export default function CardFooter({ workoutID }) {
   function onSubmit(e) {
     e.preventDefault();
 
-    axios.post('/add_exercise', { 
-      id: workoutID,
+    axios.post(`/add_exercise/${workoutID}`, { 
       name: exercise.name,
       sets: exercise.sets,
       reps: exercise.reps,

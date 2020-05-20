@@ -7,7 +7,7 @@ const Workout = mongoose.model('Workout');
 router.get('/get_workouts', (req, res) => {
   Workout.find()
     .then(data => {
-      res.json(data);
+      res.status(200).json(data);
     })
     .catch((err) => {
       console.log(err);
@@ -30,16 +30,17 @@ router.post('/add_workout', (req, res) => {
     });
 });
 
-router.patch('/rename_workout', (req, res) => {
-  const { title, id } = req.body;
+router.patch('/rename_workout/:id', (req, res) => {
+  const id = req.params.id;
+  const { title } = req.body;
 
   if (!title) return res.status(400).json({ error: 'Please enter a valid title' });
+  if (!id) return res.status(400).json({ error: 'Id does not exists' });
 
   Workout.findByIdAndUpdate(id, {
     $set: { title }
   })
   .then(data => {
-    console.log(data)
     res.status(201).json(data);
   })
   .catch(err => {
@@ -47,8 +48,8 @@ router.patch('/rename_workout', (req, res) => {
   })
 });
 
-router.delete('/delete_workout', (req, res) => {
-  const { id } = req.body;
+router.delete('/delete_workout/:id', (req, res) => {
+  const id = req.params.id;
 
   if (!id) return res.status(400).json({ error: `Please make this request with a valid id` });
 
