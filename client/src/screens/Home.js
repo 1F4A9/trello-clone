@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import Card from '../components/Card';
-import AddWorkoutCard from '../components/AddWorkoutCard';
+import Card from '../components/card/Card';
 
 const Container = styled.main`
   width: 100%;
@@ -24,7 +23,6 @@ export default function Home() {
   return (
     <Container>
       <Card workouts={workouts} setWorkouts={setWorkouts} />
-      {/* <AddWorkoutCard workouts={workouts} setWorkouts={setWorkouts} /> */}
     </Container>
   )
 }
