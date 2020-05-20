@@ -15,6 +15,8 @@ const Container = styled.div`
     justify-content: space-between;
     cursor: default;
 
+    width: 100%;
+
     i::before {
       cursor: pointer;
       margin-left: 8px;

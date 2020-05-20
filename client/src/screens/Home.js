@@ -24,7 +24,7 @@ export default function Home() {
   return (
     <Container>
       <Card workouts={workouts} setWorkouts={setWorkouts} />
-      <AddWorkoutCard workouts={workouts} setWorkouts={setWorkouts} />
+      {/* <AddWorkoutCard workouts={workouts} setWorkouts={setWorkouts} /> */}
     </Container>
   )
 }

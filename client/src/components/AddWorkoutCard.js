@@ -11,7 +11,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
 
-  .card {
+  .add-card {
     padding: 6px 12px;
     width: 100%;
   }
@@ -138,7 +138,7 @@ export default function AddWorkoutCard({ workouts, setWorkouts }) {
 
   return (
     <Container displayInput={displayInput} onClick={onClick}>
-      <div className="card" ref={cardReference}>
+      <div className="add-card" ref={cardReference}>
         {newWorkout}
       </div>
     </Container>

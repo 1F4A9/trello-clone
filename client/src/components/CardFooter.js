@@ -133,7 +133,7 @@ const Container = styled.div`
   }
 `;
 
-export default function CardFooter({ workoutID }) {
+export default function CardFooter({ workoutID, workouts, setWorkouts }) {
   const [exercise, setExercise] = useState({});
   const [isVisible, setIsVisible] = useState(false);
   const formReference = useRef(null);
@@ -155,7 +155,15 @@ export default function CardFooter({ workoutID }) {
       weight: exercise.weight
      })
     .then(response => {
-      console.log(response);
+      let workoutsCopy = [...workouts];
+
+      let workoutIndex = workoutsCopy.findIndex(workout => workout._id === response.data._id);
+      workoutsCopy.splice(workoutIndex, 1, response.data);
+
+      setWorkouts(workoutsCopy);
+    })
+    .catch(err => {
+      console.log(err);
     })
 
     setExercise({});
