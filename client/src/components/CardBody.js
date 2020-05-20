@@ -43,7 +43,16 @@ export default function CardBody({ exercises, displayEditIcon, workoutID, workou
   function onDelete(id) {
     axios.patch(`/remove_exercise/${id}`)
     .then(response => {
-      console.log(response);
+      let exercisesCopy = [...exercises];
+      let workoutsCopy = [...workouts];
+
+      let updatedExercises = exercisesCopy.filter(exercise => exercise._id !== id);
+
+      let index = workoutsCopy.findIndex(workout => workout._id === workoutID);
+
+      workoutsCopy[index].exercise = updatedExercises;
+
+      setWorkouts(workoutsCopy);
     })
     .catch(err => console.log(err))
   }
@@ -67,6 +76,10 @@ export default function CardBody({ exercises, displayEditIcon, workoutID, workou
               </div>
 
               <CardBodyEditExercise
+                workoutID={workoutID}
+                exercises={exercises}
+                setWorkouts={setWorkouts}
+                workouts={workouts}
                 onDisplayEdit={onDisplayEdit}
                 displayEdit={displayEdit}
                 exerciseID={exercise._id}

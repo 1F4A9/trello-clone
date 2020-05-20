@@ -8,7 +8,7 @@ const Container = styled.div`
   }
 `;
 
-export default function CardBodyEditExercise({ onDisplayEdit, displayEdit, exerciseID, clickedID }) {
+export default function CardBodyEditExercise({ onDisplayEdit, displayEdit, exerciseID, clickedID, exercises, workouts, setWorkouts, workoutID }) {
   const [editedExercise, setEditedExercise] = useState({});
   const [isVisible, setIsVisible] = useState(true);
   const reference = useRef(null);
@@ -40,6 +40,20 @@ export default function CardBodyEditExercise({ onDisplayEdit, displayEdit, exerc
     })
     .then(response => {
       console.log(response);
+
+      let exercisesCopy = [...exercises];
+      let workoutsCopy = [...workouts];
+      
+      let exerciseIndex = exercisesCopy.findIndex(exercise => exercise._id === exerciseID);
+      let updatedExercise = exercisesCopy.filter(exercise => exercise._id === exerciseID);
+      updatedExercise = {...updatedExercise[0], ...editedExercise};
+      exercisesCopy.splice(exerciseIndex, 1, updatedExercise);
+      
+      let workoutIndex = workoutsCopy.findIndex(workout => workout._id === workoutID);
+      workoutsCopy[workoutIndex].exercise = exercisesCopy;
+
+      setWorkouts(workoutsCopy);
+
       onDisplayEdit(false);
     })
     .catch(err => console.log(err));
