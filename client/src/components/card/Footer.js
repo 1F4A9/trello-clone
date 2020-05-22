@@ -133,7 +133,7 @@ const Container = styled.div`
   }
 `;
 
-export default function CardFooter({ workoutID, workouts, setWorkouts }) {
+export default function Footer({ workoutID, workouts, setWorkouts }) {
   const [exercise, setExercise] = useState({});
   const [isVisible, setIsVisible] = useState(false);
   const formReference = useRef(null);
@@ -148,7 +148,7 @@ export default function CardFooter({ workoutID, workouts, setWorkouts }) {
   function onSubmit(e) {
     e.preventDefault();
 
-    axios.post(`/add_exercise/${workoutID}`, { 
+    axios.post(`/exercises/add/${workoutID}`, { 
       name: exercise.name,
       sets: exercise.sets,
       reps: exercise.reps,

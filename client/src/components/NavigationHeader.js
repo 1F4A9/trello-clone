@@ -3,11 +3,14 @@ import styled from 'styled-components';
 
 const Container = styled.nav`
   display: flex;
+  position: fixed;
 
   height: 60px;
   right: 0;
   top: 0;
   left: 0;
+
+  overflow-x: fill;
 
   background-color: #242526;
 

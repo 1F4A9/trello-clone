@@ -46,7 +46,7 @@ const Container = styled.div`
   }
 `;
 
-export default function AddWorkoutCard({ workouts, setWorkouts }) {
+export default function AddWorkout({ workouts, setWorkouts }) {
   const [title, setTitle] = useState('');
   const [displayInput, setDisplayInput] = useState(false);
   const inputReference = useRef(null);
@@ -78,7 +78,7 @@ export default function AddWorkoutCard({ workouts, setWorkouts }) {
   function onSubmit(e) {
     e.preventDefault();
 
-    axios.post('/add_workout', {
+    axios.post('/workouts/add', {
       title
     })
     .then(response => {

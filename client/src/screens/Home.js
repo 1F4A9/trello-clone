@@ -1,19 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { DndProvider } from 'react-dnd';
+import TouchBackend from 'react-dnd-touch-backend'
+import Backend from 'react-dnd-html5-backend';
+import ScrollContainer from 'react-indiana-drag-scroll'
 
 import Card from '../components/card/Card';
 
 const Container = styled.main`
+  padding-top: 60px;
   width: 100%;
   background-color: #bbc4cc;
+
+  height: 100vh;
+
+  .scroll-container {
+    height: 100%;
+  }
 `;
 
 export default function Home() {
   const [workouts, setWorkouts] = useState([]);
 
   useEffect(() => {
-    axios.get('/get_workouts')
+    axios.get('/workouts')
       .then(data => setWorkouts(data.data))
       .catch(err => {
         console.log(err);
@@ -22,7 +33,11 @@ export default function Home() {
 
   return (
     <Container>
-      <Card workouts={workouts} setWorkouts={setWorkouts} />
+      <DndProvider backend={Backend}>
+        <ScrollContainer className="scroll-container" hideScrollbars={false} ignoreElements=".exercise-container">
+          <Card workouts={workouts} setWorkouts={setWorkouts} />
+        </ScrollContainer>
+      </DndProvider>
     </Container>
   )
 }

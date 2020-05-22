@@ -1,103 +1,82 @@
 import React, {  useState } from 'react';
 import styled from 'styled-components';
-import { useSwipeable } from 'react-swipeable';
 
-import CardFooter from './CardFooter';
-import CardBody from './CardBody';
-import CardHeader from './CardHeader';
-import AddWorkoutCard from './AddWorkoutCard';
+import AddWorkout from './AddWorkout';
+import CardMain from './CardMain';
 
 const Container = styled.div`
-  margin: 0 auto;
-  width: 80%;
-  transform: ${props => props.swipePos ? `translateX(${props.swipePos}%)` : 'translateX(0%)'};
-  transition: transform 0.6s ease 0s;
-  
-  .slider {
-    margin: 0 auto;
-    width: 100%;
-    display: flex;
-  }
-  
-  .flex-container {
-    width: 100%;
-    flex-shrink: 0;
-  }
-  
-  .card {
-    background-color: #f1f3f5;
-    margin: 10px;
-    border-radius: 4px;
-  }
+margin: 0 auto;
+width: 100%;
+display: flex;
 
+.card-container {
+  width: 100%;
+  flex-shrink: 0;
+}
+
+@media (max-width: 599px) {
+  width: 80%;
+  min-width: 270px;
+}
+
+@media (min-width: 600px) {
+  flex: 1;
+  
+  .card-container {
+    max-width: 350px;
+  }
+}
 `;
 
 export default function Card({ workouts, setWorkouts }) {
   const [displayEditIcon, setDisplayEditIcon] = useState('');
-  const [swipePos, setSwipePos] = useState(0);
 
   function onDisplayEdit(workoutID) {
     setDisplayEditIcon(workoutID);
   }
 
   console.log(workouts)
-  function slide(swipe) {
-    console.log(swipe)
-    if (swipe.dir === 'Left' && swipe.deltaX > 65) {
-      console.log('left');
-      setSwipePos(swipePos - 100);
-    }
+  // function slide(swipe) {
+  //   console.log(swipe)
+  //   if (swipe.dir === 'Left') {
+  //     console.log('left');
+  //     setSwipePos(swipePos - 100);
+  //   }
     
-    if (swipe.dir === 'Right' && swipe.deltaX < 65) {
-      console.log('right')
+  //   if (swipe.dir === 'Right') {
+  //     console.log('right')
 
-      setSwipePos(swipePos + 100);
-    }
-  }
+  //     setSwipePos(swipePos + 100);
+  //   }
+  // }
 
-  const handlers = useSwipeable({ 
-    onSwipedLeft: (swipe) => slide(swipe),
-    onSwipedRight: (swipe) => slide(swipe),
-    preventDefaultTouchmoveEvent: true,
-    trackMouse: true,
-    trackTouch: true,
-  })
+  // const handlers = useSwipeable({ 
+  //   onSwipedLeft: (swipe) => slide(swipe),
+  //   onSwipedRight: (swipe) => slide(swipe),
+  //   preventDefaultTouchmoveEvent: true,
+  //   trackMouse: true,
+  //   trackTouch: true,
+  //   delta: 65
+  // })
 
   return (
-    <Container swipePos={swipePos} {...handlers}>
-      <div className="slider">
+    <Container >
         {workouts.map((workout) => {
           return (
-            <div className="flex-container" key={workout._id}>
-              <div className="card" key={workout._id}>
-                <CardHeader 
-                  setWorkouts={setWorkouts}
-                  workouts={workouts}
-                  title={workout.title} 
-                  onDisplayEdit={onDisplayEdit} 
-                  workoutID={workout._id}
-                  displayEditIcon={displayEditIcon}
-                />
-                <CardBody
-                  setWorkouts={setWorkouts}
-                  workouts={workouts}
-                  exercises={workout.exercise} 
-                  displayEditIcon={displayEditIcon} 
-                  workoutID={workout._id}
-                />
-                <CardFooter 
-                  setWorkouts={setWorkouts}
-                  workouts={workouts}
-                  workoutID={workout._id}
-                />
-              </div>
+            <div className="card-container" key={workout._id}>
+              <CardMain 
+                workouts={workouts}
+                setWorkouts={setWorkouts}
+                displayEditIcon={displayEditIcon}
+                onDisplayEdit={onDisplayEdit}
+                workout={workout}
+              />
             </div>
           )
         })}
-        <div className="flex-container">
-          <AddWorkoutCard workouts={workouts} setWorkouts={setWorkouts} />
+        <div className="card-container">
+          <AddWorkout workouts={workouts} setWorkouts={setWorkouts} />
         </div>
-      </div>
     </Container>
   )
 }

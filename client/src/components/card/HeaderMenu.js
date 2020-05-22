@@ -23,9 +23,9 @@ const Container = styled.div`
   }
 `;
 
-export default function CardHeaderMenu({ onDisplayEdit, displayEditIcon, onDisplayMenu, workoutID, setWorkouts, workouts }) {
+export default function HeaderMenu({ onDisplayEdit, displayEditIcon, onDisplayMenu, workoutID, setWorkouts, workouts }) {
   function onDelete() {
-    axios.delete(`/delete_workout/${workoutID}`)
+    axios.delete(`/workouts/delete/${workoutID}`)
     .then(result => {
       onDisplayMenu();
       

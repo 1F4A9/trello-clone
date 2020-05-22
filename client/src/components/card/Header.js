@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import CardHeaderMenu from './CardHeaderMenu';
+import HeaderMenu from './HeaderMenu';
 
 const Container = styled.div`
   display: flex;
@@ -30,7 +30,7 @@ const Container = styled.div`
   }
 `;
 
-export default function CardHeader({ title, onDisplayEdit, workoutID, displayEditIcon, setWorkouts, workouts }) {
+export default function Header({ title, onDisplayEdit, workoutID, displayEditIcon, setWorkouts, workouts }) {
   const [displayMenu, setDisplayMenu] = useState(false);
   const [editTitle, setEditTitle] = useState(false);
   const [newTitle, setNewTitle] = useState('');
@@ -56,7 +56,7 @@ export default function CardHeader({ title, onDisplayEdit, workoutID, displayEdi
       setEditTitle(true);
     } else {
       if (title !== newTitle) {
-        axios.patch(`/rename_workout/${workoutID}`, {
+        axios.patch(`/workouts/rename/${workoutID}`, {
           title: newTitle,
         })
         .then(response => {
@@ -92,12 +92,10 @@ export default function CardHeader({ title, onDisplayEdit, workoutID, displayEdi
   function onSubmit(e) {
     e.preventDefault();
 
-    axios.patch('/rename_workout', {
+    axios.patch(`/workouts/rename/${workoutID}`, {
       title: newTitle,
-      id: workoutID
     })
     .then(response => {
-      console.log(response);
       setEditTitle(false);
     })
     .catch(err => {
@@ -122,7 +120,7 @@ export default function CardHeader({ title, onDisplayEdit, workoutID, displayEdi
       </span>
       <i className="fas fa-ellipsis-h" onClick={onDisplayMenu}></i>
       {displayMenu && 
-      <CardHeaderMenu 
+      <HeaderMenu 
         setWorkouts={setWorkouts}
         workouts={workouts}
         onDisplayEdit={onDisplayEdit} 

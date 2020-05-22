@@ -8,7 +8,7 @@ const Container = styled.div`
   }
 `;
 
-export default function CardBodyEditExercise({ onDisplayEdit, displayEdit, exerciseID, clickedID, exercises, workouts, setWorkouts, workoutID }) {
+export default function BodyEditExercise({ onDisplayEdit, displayEdit, exerciseID, clickedID, exercises, workouts, setWorkouts, workoutID }) {
   const [editedExercise, setEditedExercise] = useState({});
   const [isVisible, setIsVisible] = useState(true);
   const reference = useRef(null);
@@ -32,7 +32,7 @@ export default function CardBodyEditExercise({ onDisplayEdit, displayEdit, exerc
   function onSubmit(e) {
     e.preventDefault();
 
-    axios.patch(`/edit_exercise/${exerciseID}`, {
+    axios.patch(`/exercises/edit/${exerciseID}`, {
       name: editedExercise.name,
       sets: editedExercise.sets,
       reps: editedExercise.reps,

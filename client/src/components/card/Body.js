@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import CardBodyEditExercise from './CardBodyEditExercise';
+import BodyEditExercise from './BodyEditExercise';
+import BodyExerciseItem from './BodyExerciseItem';
 
 const Container = styled.div`
   margin: 0px 12px;
@@ -24,7 +25,7 @@ const Container = styled.div`
   }
 `;
 
-export default function CardBody({ exercises, displayEditIcon, workoutID, workouts, setWorkouts }) {
+export default function Body({ exercises, displayEditIcon, workoutID, workouts, setWorkouts }) {
   const [displayEdit, setDisplayEdit] = useState(false);
   const [clickedID, setClickedID] = useState('');
 
@@ -43,7 +44,7 @@ export default function CardBody({ exercises, displayEditIcon, workoutID, workou
   }
 
   function onDelete(id) {
-    axios.patch(`/remove_exercise/${id}`)
+    axios.patch(`exercises/remove/${id}`)
     .then(response => {
       let exercisesCopy = [...exercises];
       let workoutsCopy = [...workouts];
@@ -65,19 +66,15 @@ export default function CardBody({ exercises, displayEditIcon, workoutID, workou
         return (
           <Container key={exercise._id}>
             <div className="flex-container">
-              <div className="exercise-container">
-                <p>{exercise.name}: {exercise.sets} x {exercise.reps}: {exercise.weight}kg</p>
-                {displayEditIcon === workoutID && 
-                  <div className="icons">
-                    <i 
-                      className="fas fa-pencil-alt"
-                      onClick={() => onDisplayEdit(true, exercise._id)}>
-                    </i>
-                    <i className="fas fa-trash" onClick={() => onDelete(exercise._id)}></i>
-                  </div>}
-              </div>
+              <BodyExerciseItem 
+                exercise={exercise} 
+                displayEditIcon={displayEditIcon} 
+                workoutID={workoutID} 
+                onDisplayEdit={onDisplayEdit} 
+                onDelete={onDelete}
+              />
 
-              <CardBodyEditExercise
+              <BodyEditExercise
                 workoutID={workoutID}
                 exercises={exercises}
                 setWorkouts={setWorkouts}
