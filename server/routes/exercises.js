@@ -1,10 +1,10 @@
 const express = require('express');
-const router = express.Router();
+const exercises = express.Router();
 const mongoose = require('mongoose');
 
 const Workout = mongoose.model('Workout');
 
-router.post('/add_exercise/:id', (req, res) => {
+exercises.post('/add/:id', (req, res) => {
   const id = req.params.id;
   const { name, sets, reps, weight } = req.body;
   
@@ -36,13 +36,14 @@ router.post('/add_exercise/:id', (req, res) => {
   });
 });
 
-router.patch('/edit_exercise/:id', (req, res) => {
+exercises.patch('/edit/:id', (req, res) => {
   const id = req.params.id;
   const { name, sets, reps, weight } = req.body;
 
   // DO SOME VALIDATION
   if (!id) return res.status(400).json({ error: `Please make this request with a valid id` });
-  if (!name || !sets || !reps || !weight) return res.status(400).json({ error: 'Please make a better error log' });
+  console.log(req.body)
+  // if (!name || !sets || !reps || !weight) return res.status(400).json({ error: 'Please make a better error log' });
 
   Workout.updateOne({ 'exercise._id': id }, {
     $set: { 
@@ -61,7 +62,7 @@ router.patch('/edit_exercise/:id', (req, res) => {
   });
 });
 
-router.patch('/remove_exercise/:id', (req, res) => {
+exercises.patch('/remove/:id', (req, res) => {
   const id = req.params.id;
 
   if (!id) return res.status(400).json({ error: 'Please make this request with a valid id' });
@@ -80,4 +81,4 @@ router.patch('/remove_exercise/:id', (req, res) => {
   });
 });
 
-module.exports = router;
+module.exports = exercises;

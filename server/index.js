@@ -8,6 +8,9 @@ require('dotenv').config();
 require('./database');
 require('./models/workout');
 
+const exercises = require('./routes/exercises');
+const workouts = require('./routes/workouts');
+
 // middlewares
 app.use(express.json());
 app.use((req, res, next) => {
@@ -19,8 +22,8 @@ app.use((req, res, next) => {
 })
 
 // mount the router on the app
-app.use(require('./routes/workout'));
-app.use(require('./routes/exercise'));
+app.use('/exercises', exercises);
+app.use('/workouts', workouts);
 
 const PORT = 8080;
 app.listen(PORT, () => console.log(`listening on port ${PORT}...`));
