@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useDrop } from 'react-dnd';
 
@@ -11,37 +11,9 @@ const Container = styled.div`
   background-color: #f1f3f5;
   margin: 10px;
   border-radius: 4px;
-
-  // transform: ${props => props.swipePos ? `translateX(${props.swipePos}%)` : 'translateX(0%)'};
-  // transition: transform 0.6s ease 0s;
 `;
 
 export default function CardMain({ workout, setWorkouts, workouts, onDisplayEdit, displayEditIcon }) {
-  // const [swipePos, setSwipePos] = useState(0);
-
-  // const handlers = useSwipeable({ 
-  //   onSwipedLeft: (swipe) => slide(swipe),
-  //   onSwipedRight: (swipe) => slide(swipe),
-  //   preventDefaultTouchmoveEvent: true,
-  //   trackMouse: true,
-  //   trackTouch: true,
-  //   delta: 65
-  // })
-
-  // function slide(swipe) {
-  //   console.log(swipe)
-  //   if (swipe.dir === 'Left') {
-  //     console.log('left');
-  //     setSwipePos(swipePos - 100);
-  //   }
-    
-  //   if (swipe.dir === 'Right') {
-  //     console.log('right')
-
-  //     setSwipePos(swipePos + 100);
-  //   }
-  // }
-
   function moveExercise(item) {
     console.log(item);
   }
@@ -54,7 +26,6 @@ export default function CardMain({ workout, setWorkouts, workouts, onDisplayEdit
     })
   })
 
-  // swipePos={swipePos} {...handlers}
   return (
     <Container key={workout._id} ref={drop} style={{backgroundColor: isOver ? 'green' : 'white'}}>
       <Header 

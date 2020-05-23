@@ -19,7 +19,25 @@ app.use((req, res, next) => {
     console.log(`Method: ${req.method}, Path: ${req.path}, Status: ${res.statusCode} Response Time: ${Date.now()-start}`)
   })
   next();
-})
+});
+
+// app.use((req, res, next) => {
+//   if (!req.is('json')) return res.status(400).end();
+
+//   let data = '';
+
+//   req.on('data', chunk => {
+//     console.log(chunk);
+//     data += chunk.toString();
+//   });
+
+//   req.on('end', () => {
+//     console.log('END')
+//     data = JSON.parse(data);
+//     req.body = data;
+//     next();
+//   })
+// })
 
 // mount the router on the app
 app.use('/exercises', exercises);

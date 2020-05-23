@@ -14,8 +14,17 @@ export default function BodyEditExercise({ onDisplayEdit, displayEdit, exerciseI
   const reference = useRef(null);
 
   useEffect(() => {
+    function handleClickOutside(e) {
+      if (exerciseID && clickedID && reference.current.contains(e.target)) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    }
+
     if (exerciseID && clickedID) {
       document.addEventListener("click", handleClickOutside, false);
+      
       return () => {
         document.removeEventListener("click", handleClickOutside, false);
       };
@@ -39,8 +48,6 @@ export default function BodyEditExercise({ onDisplayEdit, displayEdit, exerciseI
       weight: editedExercise.weight,
     })
     .then(response => {
-      console.log(response);
-
       let exercisesCopy = [...exercises];
       let workoutsCopy = [...workouts];
       
@@ -61,14 +68,7 @@ export default function BodyEditExercise({ onDisplayEdit, displayEdit, exerciseI
   
   function onChange(e) {
     setEditedExercise({...editedExercise, ...{[e.target.name]: e.target.value}});
-  }
-
-  function handleClickOutside(e) {
-    if (exerciseID && clickedID && reference.current.contains(e.target)) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
+    console.log(editedExercise)
   }
 
   let display = null;
@@ -79,7 +79,7 @@ export default function BodyEditExercise({ onDisplayEdit, displayEdit, exerciseI
   };
   
   return (
-    <Container style={display} ref={reference}>
+    <Container style={display} ref={reference} className="ignore-scroll-drag">
       <form onSubmit={onSubmit}>
         <input onChange={onChange} value={editedExercise.name || ''} type="text" name="name" autoComplete="off"/>
         <input onChange={onChange} value={editedExercise.sets || ''} type="number" name="sets" autoComplete="off"/>

@@ -34,7 +34,7 @@ export default function Home() {
   return (
     <Container>
       <DndProvider backend={Backend}>
-        <ScrollContainer className="scroll-container" hideScrollbars={false} ignoreElements=".exercise-container">
+        <ScrollContainer className="scroll-container" hideScrollbars={false} ignoreElements=".exercise-container, .ignore-scroll-drag">
           <Card workouts={workouts} setWorkouts={setWorkouts} />
         </ScrollContainer>
       </DndProvider>

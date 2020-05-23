@@ -43,40 +43,39 @@ export default function Header({ title, onDisplayEdit, workoutID, displayEditIco
   }, [editTitle])
 
   useEffect(() => {
+    function handleClickOutside(e) {
+      if (titleReference.current.contains(e.target)) {
+        setEditTitle(true);
+      } else {
+        if (title !== newTitle) {
+          axios.patch(`/workouts/rename/${workoutID}`, {
+            title: newTitle,
+          })
+          .then(response => {
+            let updatedWorkouts = [...workouts];
+            let index = updatedWorkouts.findIndex(workout => workout._id === response.data._id);
+            response.data.title = newTitle;
+            updatedWorkouts.splice(index, 1, response.data);
+  
+            setWorkouts(updatedWorkouts);
+            
+            return setEditTitle(false);
+          })
+          .catch(err => {
+            console.log(err);
+          })
+        }
+        setEditTitle(false);
+      }
+    }
+
     if (editTitle) {
       document.addEventListener("click", handleClickOutside, false);
       return () => {
         document.removeEventListener("click", handleClickOutside, false);
       };
     }
-  }, [editTitle,  newTitle]);
-
-  function handleClickOutside(e) {
-    if (titleReference.current.contains(e.target)) {
-      setEditTitle(true);
-    } else {
-      if (title !== newTitle) {
-        axios.patch(`/workouts/rename/${workoutID}`, {
-          title: newTitle,
-        })
-        .then(response => {
-          let updatedWorkouts = [...workouts];
-          let index = updatedWorkouts.findIndex(workout => workout._id === response.data._id);
-          response.data.title = newTitle;
-          updatedWorkouts.splice(index, 1, response.data);
-
-          setWorkouts(updatedWorkouts);
-          
-          return setEditTitle(false);
-        })
-        .catch(err => {
-          console.log(err);
-        })
-      }
-
-      setEditTitle(false);
-    }
-  }
+  }, [editTitle, newTitle, title, workoutID, workouts, setWorkouts]);
 
   function onDisplayMenu() {
     setDisplayMenu(!displayMenu);
