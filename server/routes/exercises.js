@@ -1,10 +1,16 @@
 const express = require('express');
-const exercises = express.Router();
+const router = express.Router();
 const mongoose = require('mongoose');
 
 const Workout = mongoose.model('Workout');
 
-exercises.post('/add/:id', (req, res) => {
+/*
+*
+* ROUTE: '/workouts/exercises'
+*
+*/
+
+router.post('/add/:id', (req, res) => {
   const id = req.params.id;
   const { name, sets, reps, weight } = req.body;
   
@@ -36,7 +42,7 @@ exercises.post('/add/:id', (req, res) => {
   });
 });
 
-exercises.patch('/edit/:id', (req, res) => {
+router.patch('/edit/:id', (req, res) => {
   const id = req.params.id;
   const { name, sets, reps, weight } = req.body;
 
@@ -62,7 +68,7 @@ exercises.patch('/edit/:id', (req, res) => {
   });
 });
 
-exercises.patch('/remove/:id', (req, res) => {
+router.delete('/delete/:id', (req, res) => {
   const id = req.params.id;
 
   if (!id) return res.status(400).json({ error: 'Please make this request with a valid id' });
@@ -81,4 +87,4 @@ exercises.patch('/remove/:id', (req, res) => {
   });
 });
 
-module.exports = exercises;
+module.exports = router;

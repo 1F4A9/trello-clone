@@ -8,11 +8,9 @@ require('dotenv').config();
 require('./database');
 require('./models/workout');
 
-const exercises = require('./routes/exercises');
-const workouts = require('./routes/workouts');
-
 // middlewares
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use((req, res, next) => {
   let start = Date.now();
   res.once("finish", () => {
@@ -21,27 +19,12 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use((req, res, next) => {
-//   if (!req.is('json')) return res.status(400).end();
-
-//   let data = '';
-
-//   req.on('data', chunk => {
-//     console.log(chunk);
-//     data += chunk.toString();
-//   });
-
-//   req.on('end', () => {
-//     console.log('END')
-//     data = JSON.parse(data);
-//     req.body = data;
-//     next();
-//   })
-// })
-
 // mount the router on the app
-app.use('/exercises', exercises);
-app.use('/workouts', workouts);
+const exercisesRoute = require('./routes/exercises');
+const workoutsRoute = require('./routes/workouts');
+app.use(require('./routes/shared'));
+app.use('/workouts', workoutsRoute); 
+app.use('/workouts/exercises', exercisesRoute);
 
 const PORT = 8080;
 app.listen(PORT, () => console.log(`listening on port ${PORT}...`));
