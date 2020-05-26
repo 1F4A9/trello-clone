@@ -13,6 +13,7 @@ require('./models/workout');
 // middlewares
 app.use(logger);
 app.use(JSONparse);
+// app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // mount the router on the app

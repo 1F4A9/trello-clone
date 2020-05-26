@@ -1,5 +1,5 @@
 function JSONparse(req, res, next) {
-  if (!req.is('json')) return res.status(400).end();
+  if (!req.is('json')) return next();
 
   let data = '';
 
