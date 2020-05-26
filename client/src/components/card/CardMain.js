@@ -9,7 +9,7 @@ import Body from './Body';
 import Header from './Header';
 
 const Container = styled.div`
-  background-color: #f1f3f5;
+  background-color: #e4e7eb;
   margin: 10px;
   border-radius: 4px;
 `;
@@ -53,7 +53,7 @@ export default function CardMain({ workout, setWorkouts, workouts, onDisplayEdit
   })
 
   return (
-    <Container key={workout._id} ref={drop} style={{backgroundColor: isOver ? 'green' : 'white'}}>
+    <Container key={workout._id} ref={drop} style={{backgroundColor: isOver ? 'green' : '#e4e7eb'}}>
       <Header 
         setWorkouts={setWorkouts}
         workouts={workouts}

@@ -24,7 +24,7 @@ const Container = styled.nav`
 
   i {
     transform: scale(2.5);
-    color: #b0b3b8;
+    color: #778899;
   }
 `;
 

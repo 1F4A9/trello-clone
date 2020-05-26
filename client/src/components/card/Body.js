@@ -10,19 +10,6 @@ const Container = styled.div`
 
   display: flex;
   flex-direction: column;
-
-  .exercise-container {
-    display: flex;
-    justify-content: space-between;
-    cursor: default;
-
-    width: 100%;
-
-    i::before {
-      cursor: pointer;
-      margin-left: 8px;
-    }
-  }
 `;
 
 export default function Body({ exercises, displayEditIcon, workoutID, workouts, setWorkouts }) {

@@ -11,7 +11,7 @@ import Card from '../components/card/Card';
 const Container = styled.main`
   padding-top: 60px;
   width: 100%;
-  background-color: #bbc4cc;
+  background-color: #778899;
 
   height: 100vh;
 
@@ -34,7 +34,7 @@ export default function Home() {
   return (
     <Container>
       <DndProvider backend={Backend}>
-        <ScrollContainer className="scroll-container" hideScrollbars={false} ignoreElements=".exercise-container, .ignore-scroll-drag">
+        <ScrollContainer className="scroll-container" hideScrollbars={false} ignoreElements=".ignore-scroll-drag">
           <Card workouts={workouts} setWorkouts={setWorkouts} />
         </ScrollContainer>
       </DndProvider>
