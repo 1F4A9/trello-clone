@@ -30,7 +30,7 @@ export default function Body({ exercises, displayEditIcon, workoutID, workouts, 
   const [clickedID, setClickedID] = useState('');
 
   useEffect(() => {
-    // beacuse childcomponent listens for mouse clicks outside it's own "<div />"
+    // childcomponent listens for mouse clicks outside it's own "<div />"
     // more than one render will cause displayEdit to switch between false/true when it should not.
     if (displayEdit) {
       setDisplayEdit(false);
@@ -44,8 +44,9 @@ export default function Body({ exercises, displayEditIcon, workoutID, workouts, 
   }
 
   function onDelete(id) {
-    axios.patch(`exercises/remove/${id}`)
+    axios.delete(`/workouts/exercises/delete/${id}`)
     .then(response => {
+      console.log(response)
       let exercisesCopy = [...exercises];
       let workoutsCopy = [...workouts];
 

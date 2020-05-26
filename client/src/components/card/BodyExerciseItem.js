@@ -5,14 +5,14 @@ import { ItemTypes } from '../../utils/items';
 
 export default function BodyExerciseItem({ exercise, displayEditIcon, workoutID, onDisplayEdit, onDelete }) {
   
-  // item, A plain JavaScript object describing the data being dragged.
-  // hook returns extraProps, and a refrence
   // what´s going to be draggeble depends on which element you put the refrence on as a ref={}
   // if monitor, isDragging === true, only true when the specific items is being dragged
   const [{ isDragging }, drag] = useDrag({ 
     item: {
       type: ItemTypes.EXERCISE,
       exerciseID: exercise._id,
+      movedExercise: exercise,
+      movedFromID: workoutID,
     },
     collect: monitor => ({
       isDragging: !!monitor.isDragging()

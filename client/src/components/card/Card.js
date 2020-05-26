@@ -36,28 +36,6 @@ export default function Card({ workouts, setWorkouts }) {
   }
 
   console.log(workouts)
-  // function slide(swipe) {
-  //   console.log(swipe)
-  //   if (swipe.dir === 'Left') {
-  //     console.log('left');
-  //     setSwipePos(swipePos - 100);
-  //   }
-    
-  //   if (swipe.dir === 'Right') {
-  //     console.log('right')
-
-  //     setSwipePos(swipePos + 100);
-  //   }
-  // }
-
-  // const handlers = useSwipeable({ 
-  //   onSwipedLeft: (swipe) => slide(swipe),
-  //   onSwipedRight: (swipe) => slide(swipe),
-  //   preventDefaultTouchmoveEvent: true,
-  //   trackMouse: true,
-  //   trackTouch: true,
-  //   delta: 65
-  // })
 
   return (
     <Container >

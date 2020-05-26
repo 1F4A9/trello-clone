@@ -148,7 +148,7 @@ export default function Footer({ workoutID, workouts, setWorkouts }) {
   function onSubmit(e) {
     e.preventDefault();
 
-    axios.post(`/exercises/add/${workoutID}`, { 
+    axios.post(`/workouts/exercises/add/${workoutID}`, { 
       name: exercise.name,
       sets: exercise.sets,
       reps: exercise.reps,
@@ -192,7 +192,7 @@ export default function Footer({ workoutID, workouts, setWorkouts }) {
   };
 
   return (
-    <Container ref={formReference}>
+    <Container ref={formReference} className="ignore-scroll-drag">
       <span style={hide} className={`default-footer`}>+ Add new exercise</span>
       {isVisible && (
       <div className={`add-exercise`} style={display}>

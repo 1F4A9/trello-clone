@@ -69,4 +69,125 @@ router.delete('/delete/:id', (req, res) => {
     });
 });
 
+/**************************************************************************
+*
+* ROUTE: '/workouts/exercises'
+*
+***************************************************************************/
+
+router.post('/exercises/add/:id', (req, res) => {
+  const id = req.params.id;
+  const { name, sets, reps, weight } = req.body;
+  
+  if (!id) return res.status(400).json({ error: `Please make this request with a valid id` });
+  if (!name || !sets || !reps || !weight) {
+    return res.status(400).json({ error: 'Please fill in the required fields' });
+  }
+
+  const exercise = {
+    name,
+    sets,
+    reps,
+    weight
+  };
+
+  Workout.findByIdAndUpdate(id, {
+    $push: { exercise },
+  }, {
+    new: true
+  })
+  .then(data => {
+    if (!data) return res.status(400).json({ error: 'Please only add exercise to an existing workout' });
+
+    res.status(201).json(data);
+  })
+  .catch(err => {
+    console.log(err);
+    return res.status(500).json({ error: err });
+  });
+});
+
+router.patch('/exercises/edit/:id', (req, res) => {
+  const id = req.params.id;
+  const { name, sets, reps, weight } = req.body;
+
+  // DO SOME VALIDATION
+  if (!id) return res.status(400).json({ error: `Please make this request with a valid id` });
+  console.log(req.body)
+  // if (!name || !sets || !reps || !weight) return res.status(400).json({ error: 'Please make a better error log' });
+
+  Workout.updateOne({ 'exercise._id': id }, {
+    $set: { 
+      'exercise.$.name': name, 
+      'exercise.$.sets': sets,
+      'exercise.$.reps': reps,
+      'exercise.$.weight': weight
+     }
+  })
+  .then(data => {
+    res.status(201).json(data);
+  })
+  .catch(err => {
+    console.log(err);
+    return res.status(500).json({ error: err });
+  });
+});
+
+router.delete('/exercises/delete/:id', (req, res) => {
+  const id = req.params.id;
+
+  if (!id) return res.status(400).json({ error: 'Please make this request with a valid id' });
+
+  Workout.findOneAndUpdate({ 'exercise._id': id }, {
+    $pull: { exercise: { _id: id } }
+  })
+  .then(data => {
+    if (!data) return res.status(400).json({ error: 'Cannot remove object that does not exists' });
+    
+    res.status(204).json(data);
+  })
+  .catch(err => {
+    console.log(err);
+    return res.status(500).json({ error: err });
+  });
+});
+
+router.patch('/:workoutID/exercises/:exerciseID/move', (req, res) => {
+  const exerciseID = req.params.exerciseID;
+  const workoutID = req.params.workoutID;
+
+  if (!workoutID || !exerciseID) return res.status(400).json({ error: 'Please make this request with a valid id' });
+
+  Workout.findOne({'exercise._id': exerciseID})
+    .then(data =>  { 
+      if (!data) return res.status(400).json({ error: 'Cannot find the given exercise ID' });
+
+      return data.exercise.find(exercise => exercise._id.toString() === exerciseID);
+    })
+    .then((exerciseToMove) => {
+      return Workout.findOneAndUpdate({
+        'exercise._id': { $ne: exerciseToMove },
+        _id: workoutID 
+      }, {
+        $push: { exercise: exerciseToMove } 
+      })
+    })
+    .then(() => {
+      return Workout.findOneAndUpdate({ 
+        _id: { $ne: workoutID },
+        'exercise._id': exerciseID 
+      }, {
+        $pull: { exercise: { _id: exerciseID } }
+      })
+    })
+    .then(result => {
+      res.status(204).json(result);
+    })
+    .catch(err => {
+      console.log(err);
+      return res.status(500).json({ error: err });
+    }
+  );
+});
+
 module.exports = router;

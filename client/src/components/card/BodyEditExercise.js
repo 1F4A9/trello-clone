@@ -41,7 +41,7 @@ export default function BodyEditExercise({ onDisplayEdit, displayEdit, exerciseI
   function onSubmit(e) {
     e.preventDefault();
 
-    axios.patch(`/exercises/edit/${exerciseID}`, {
+    axios.patch(`/workouts/exercises/edit/${exerciseID}`, {
       name: editedExercise.name,
       sets: editedExercise.sets,
       reps: editedExercise.reps,
@@ -68,7 +68,6 @@ export default function BodyEditExercise({ onDisplayEdit, displayEdit, exerciseI
   
   function onChange(e) {
     setEditedExercise({...editedExercise, ...{[e.target.name]: e.target.value}});
-    console.log(editedExercise)
   }
 
   let display = null;
