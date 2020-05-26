@@ -18,28 +18,30 @@ export default function CardMain({ workout, setWorkouts, workouts, onDisplayEdit
   function moveExercise(item) {
     const { exerciseID, workoutID, movedExercise, movedFromID } = item;
     
-    axios.patch(`/workouts/${workoutID}/exercises/${exerciseID}/move`)
-    .then(result => {
-      let updatedWorkout = { ...workout };
-      let workoutsCopy = [...workouts];
-      
-      let newIndex = workoutsCopy.findIndex(workout => workout._id === workoutID);
-      let oldIndex = workoutsCopy.findIndex(workout => workout._id === movedFromID);
-
-      updatedWorkout.exercise.push(movedExercise);
-      workoutsCopy.splice(newIndex, 1, updatedWorkout);
-
-      let oldWorkout = workoutsCopy[oldIndex];
-      let oldExercise = [...oldWorkout.exercise]
-      let updatedExercise = oldExercise.filter(exercise => exercise._id !== movedExercise._id);
-      oldWorkout.exercise = updatedExercise;
-      workoutsCopy.splice(oldIndex, 1, oldWorkout);
-
-      setWorkouts(workoutsCopy);
-    })
-    .catch(err => {
-      console.log(err)
-    })
+    if (workoutID !== movedFromID) {
+      axios.patch(`/workouts/${workoutID}/exercises/${exerciseID}/move`)
+      .then(result => {
+        let updatedWorkout = { ...workout };
+        let workoutsCopy = [...workouts];
+        
+        let newIndex = workoutsCopy.findIndex(workout => workout._id === workoutID);
+        let oldIndex = workoutsCopy.findIndex(workout => workout._id === movedFromID);
+  
+        updatedWorkout.exercise.push(movedExercise);
+        workoutsCopy.splice(newIndex, 1, updatedWorkout);
+  
+        let oldWorkout = workoutsCopy[oldIndex];
+        let oldExercise = [...oldWorkout.exercise]
+        let updatedExercise = oldExercise.filter(exercise => exercise._id !== movedExercise._id);
+        oldWorkout.exercise = updatedExercise;
+        workoutsCopy.splice(oldIndex, 1, oldWorkout);
+  
+        setWorkouts(workoutsCopy);
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
   }
 
   const [{ isOver }, drop] = useDrop({
