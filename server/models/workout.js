@@ -1,9 +1,9 @@
 const mongoose = require('../database');
 
 const workoutSchema = new mongoose.Schema({
-  title: { type: String, minlength: 2 },
+  title: { type: String, trim: true },
   exercise: [{
-    name: String,
+    name: { type: String, trim: true },
     sets: Number,
     reps: Number,
     weight: Number,

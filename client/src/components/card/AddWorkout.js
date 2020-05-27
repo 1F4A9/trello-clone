@@ -82,7 +82,6 @@ export default function AddWorkout({ workouts, setWorkouts }) {
       title
     })
     .then(response => {
-      console.log(response);
       let workoutsCopy = [...workouts];
       workoutsCopy.push(response.data);
       setWorkouts(workoutsCopy);

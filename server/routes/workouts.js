@@ -107,32 +107,6 @@ router.post('/exercises/add/:id', (req, res) => {
   });
 });
 
-router.patch('/exercises/edit/:id', (req, res) => {
-  const id = req.params.id;
-  const { name, sets, reps, weight } = req.body;
-
-  // DO SOME VALIDATION
-  if (!id) return res.status(400).json({ error: `Please make this request with a valid id` });
-  console.log(req.body)
-  // if (!name || !sets || !reps || !weight) return res.status(400).json({ error: 'Please make a better error log' });
-
-  Workout.updateOne({ 'exercise._id': id }, {
-    $set: { 
-      'exercise.$.name': name, 
-      'exercise.$.sets': sets,
-      'exercise.$.reps': reps,
-      'exercise.$.weight': weight
-     }
-  })
-  .then(data => {
-    res.status(201).json(data);
-  })
-  .catch(err => {
-    console.log(err);
-    return res.status(500).json({ error: err });
-  });
-});
-
 router.delete('/exercises/delete/:id', (req, res) => {
   const id = req.params.id;
 
@@ -145,6 +119,90 @@ router.delete('/exercises/delete/:id', (req, res) => {
     if (!data) return res.status(400).json({ error: 'Cannot remove object that does not exists' });
     
     res.status(204).json(data);
+  })
+  .catch(err => {
+    console.log(err);
+    return res.status(500).json({ error: err });
+  });
+});
+
+router.patch('/exercises/edit/name/:id', (req, res) => {
+  const id = req.params.id;
+  const { name } = req.body;
+  
+  if (!id) return res.status(400).json({ error: `Please make this request with a valid id` });
+  if (!name) return res.status(400).json({ error: `Please make this request with a valid name` });
+
+  Workout.updateOne({ 'exercise._id': id }, {
+    $set: { 
+      'exercise.$.name': name,
+     }
+  })
+  .then(data => {
+    res.status(201).json(data);
+  })
+  .catch(err => {
+    console.log(err);
+    return res.status(500).json({ error: err });
+  });
+});
+
+router.patch('/exercises/edit/sets/:id', (req, res) => {
+  const id = req.params.id;
+  const { sets } = req.body;
+  
+  if (!id) return res.status(400).json({ error: `Please make this request with a valid id` });
+  if (!sets) return res.status(400).json({ error: `Please make this request with a valid number` });
+
+  Workout.updateOne({ 'exercise._id': id }, {
+    $set: { 
+      'exercise.$.sets': sets,
+     }
+  })
+  .then(data => {
+    res.status(201).json(data);
+  })
+  .catch(err => {
+    console.log(err);
+    return res.status(500).json({ error: err });
+  });
+});
+
+router.patch('/exercises/edit/reps/:id', (req, res) => {
+  const id = req.params.id;
+  const { reps } = req.body;
+  
+  if (!id) return res.status(400).json({ error: `Please make this request with a valid id` });
+  if (!reps) return res.status(400).json({ error: `Please make this request with a valid number` });
+
+  Workout.updateOne({ 'exercise._id': id }, {
+    $set: { 
+      'exercise.$.reps': reps,
+     }
+  })
+  .then(data => {
+    res.status(201).json(data);
+  })
+  .catch(err => {
+    console.log(err);
+    return res.status(500).json({ error: err });
+  });
+});
+
+router.patch('/exercises/edit/weight/:id', (req, res) => {
+  const id = req.params.id;
+  const { weight } = req.body;
+  
+  if (!id) return res.status(400).json({ error: `Please make this request with a valid id` });
+  if (!weight) return res.status(400).json({ error: `Please make this request with a valid number` });
+
+  Workout.updateOne({ 'exercise._id': id }, {
+    $set: { 
+      'exercise.$.weight': weight,
+     }
+  })
+  .then(data => {
+    res.status(201).json(data);
   })
   .catch(err => {
     console.log(err);

@@ -14,10 +14,8 @@ const Container = styled.div`
 
   z-index: 1;
 
-  .edit,
-  .delete,
-  .info,
-  .rename {
+  .options,
+  .delete {
     cursor: pointer;
     padding: 4px 6px;
   }
@@ -45,17 +43,10 @@ export default function HeaderMenu({ onDisplayEdit, displayEditIcon, onDisplayMe
     
     onDisplayMenu();
   }
-  
-  function onInfo() {
-    
-    onDisplayMenu();
-  }
 
   return (
     <Container>
-      <div className="edit" onClick={onEdit}>Edit exercises</div>
-      <div className="info" onClick={onInfo}>Info</div>
-      <div className="rename">Rename workout</div>
+      <div className="options" onClick={onEdit}>Exercises options</div>
       <div className="delete" onClick={onDelete}>Delete workout</div>
     </Container>
   )

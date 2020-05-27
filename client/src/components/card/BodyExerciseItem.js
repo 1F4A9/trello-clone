@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDrag } from 'react-dnd';
 import styled from 'styled-components';
+import moment from 'moment';
+import axios from 'axios';
 
 import { ItemTypes } from '../../utils/items';
 
@@ -26,6 +28,11 @@ const Container = styled.div`
       word-break: break-word;
       cursor: pointer;
     }
+
+    .date-created {
+      font-size: 12px;
+      cursor: default;
+    }
   }
 
   .flex-container {
@@ -36,9 +43,10 @@ const Container = styled.div`
     margin: 0px;
     display: inline-block;
   }
+
 `;
 
-export default function BodyExerciseItem({ exercise, displayEditIcon, workoutID, onDisplayEdit, onDelete }) {
+export default function BodyExerciseItem({ exercise, displayEditIcon, workoutID, onDisplayEdit, onDelete, setWorkouts, workouts, exerciseID }) {
   const [editName, setEditName] = useState(false);
   const [editSets, setEditSets] = useState(false);
   const [editReps, setEditReps] = useState(false);
@@ -85,12 +93,40 @@ export default function BodyExerciseItem({ exercise, displayEditIcon, workoutID,
   function onSubmit(e) {
     e.preventDefault();
 
-    console.log(editExercise)
+    let exerciseKey = Object.keys(editExercise)[0];
+    let exerciseValue = Object.values(editExercise)[0];
+
+    const obj = { [exerciseKey]: exerciseValue };
+
+    axios.patch(`/workouts/exercises/edit/${exerciseKey}/${exercise._id}`, obj)
+    .then(result => {
+      let workoutsCopy = [...workouts];
+      let workoutIndex = workoutsCopy.findIndex(workout => workout._id === workoutID);
+      
+      let exerciseCopy = [...workoutsCopy[workoutIndex].exercise];
+      let workoutCopy = {...workoutsCopy[workoutIndex]};
+      let exerciseIndex = exerciseCopy.findIndex(exercise => exercise._id === exerciseID);
+      let exerciseToUpdate = exerciseCopy.filter(exercise => exercise._id === exerciseID);
+
+      exerciseToUpdate[0][exerciseKey] = exerciseValue;
+      exerciseCopy.splice(exerciseIndex, 1, exerciseToUpdate[0]);
+
+      workoutCopy.exercise = exerciseCopy;
+
+      setWorkouts(workoutsCopy);
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
 
   // --------------------- WARNING UGLY CODE BELOW ---------------------
 
   function onEditName() {
+    if (!editExercise.name) {
+      setEditExercise({name: exercise.name});
+    }
+
     if (!editName && !editSets && !editReps && !editWeight) {
       setEditName(true);
     } else {
@@ -102,6 +138,10 @@ export default function BodyExerciseItem({ exercise, displayEditIcon, workoutID,
   }
 
   function onEditSets() {
+    if (!editExercise.sets) {
+      setEditExercise({sets: exercise.sets});
+    }
+
     if (!editName && !editSets && !editReps && !editWeight) {
       setEditSets(true);
     } else {
@@ -113,6 +153,10 @@ export default function BodyExerciseItem({ exercise, displayEditIcon, workoutID,
   }
 
   function onEditReps() {
+    if (!editExercise.reps) {
+      setEditExercise({reps: exercise.reps});
+    }
+
     if (!editName && !editSets && !editReps && !editWeight) {
       setEditReps(true);
     } else {
@@ -124,6 +168,10 @@ export default function BodyExerciseItem({ exercise, displayEditIcon, workoutID,
   }
 
   function onEditWeight() {
+    if (!editExercise.weight) {
+      setEditExercise({weight: exercise.weight});
+    }
+
     if (!editName && !editSets && !editReps && !editWeight) {
       setEditWeight(true);
     } else {
@@ -142,25 +190,25 @@ export default function BodyExerciseItem({ exercise, displayEditIcon, workoutID,
   if (editName) {
     displayInput = (
       <form onSubmit={onSubmit}>
-        <input type="text" onChange={onChange} value={editExercise.name || ''} ref={inputReference} name="name" />
+        <input type="text" onChange={onChange} value={editExercise.name} ref={inputReference} name="name" />
       </form>
     );
   } else if (editSets) {
     displayInput = (
       <form onSubmit={onSubmit}>
-        <input type="number" onChange={onChange} value={editExercise.sets || ''} ref={inputReference} name="sets" />
+        <input type="number" onChange={onChange} value={editExercise.sets} ref={inputReference} name="sets" />
       </form>
     );
   } else if (editReps) {
     displayInput = (
       <form onSubmit={onSubmit}>
-        <input type="number" onChange={onChange} value={editExercise.reps || ''} ref={inputReference} name="reps" />
+        <input type="number" onChange={onChange} value={editExercise.reps} ref={inputReference} name="reps" />
       </form>
     );
   } else if (editWeight) {
     displayInput = (
       <form onSubmit={onSubmit}>
-        <input type="number" onChange={onChange} value={editExercise.weight || ''} ref={inputReference} name="weight" />
+        <input type="number" onChange={onChange} value={editExercise.weight} ref={inputReference} name="weight" />
       </form>
     );
   }
@@ -170,9 +218,8 @@ export default function BodyExerciseItem({ exercise, displayEditIcon, workoutID,
        <div className="exercise">
          <div className="exercise-name">
            <span onClick={onEditName}>
-             {editName ? displayInput : exercise.name}
+             {editName ? displayInput : exercise.name + ':'}
            </span>
-           <span>:&nbsp;</span>
          </div>
          <div className="flex-container">
            <span onClick={onEditSets}>
@@ -188,14 +235,13 @@ export default function BodyExerciseItem({ exercise, displayEditIcon, workoutID,
            </span>
            <span>kg</span>
          </div>
+         <div className="flex-container">
+           <span className="date-created">{moment(exercise.createdAt).format('MMMM Do YYYY, HH:mm')}</span>
+         </div>
        </div>
        {displayEditIcon === workoutID && 
          <div className="icons">
-           <i 
-             className="fas fa-pencil-alt"
-            onClick={() => onDisplayEdit(true, exercise._id)}>
-           </i>
-         <i className="fas fa-trash" onClick={() => onDelete(exercise._id)}></i>
+          <i className="fas fa-trash" onClick={() => onDelete(exercise._id)}></i>
        </div>}
      </Container>
   )
