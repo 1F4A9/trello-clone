@@ -15,9 +15,9 @@ function JSONparse(req, res, next) {
 };
 
 function logger(req, res, next) {
-  let start = Date.now();
+  let timer = Date.now();
   res.once('finish', () => {
-    console.log(`Method: ${req.method}, Path: ${req.path}, Status: ${res.statusCode} Response Time: ${Date.now()-start}`);
+    console.log(`Method: ${req.method}, Path: ${req.path}, Status: ${res.statusCode} Response Time: ${Date.now()-timer}ms`);
   });
   next();
 };

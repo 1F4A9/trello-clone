@@ -239,7 +239,7 @@ router.patch('/:workoutID/exercises/:exerciseID/move', (req, res) => {
       })
     })
     .then(result => {
-      res.status(204).json(result);
+      res.status(201).json(result);
     })
     .catch(err => {
       console.log(err);
