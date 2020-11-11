@@ -1,4 +1,4 @@
-# Chat App
+# Trello Clone
 Trello-clone with a training program twist.<br/>
 Create your own weight lifting program, add the excercise, sets, reps and weight.<br/>
 The application works like trello, drag n drop, create cards ect.<br/>
